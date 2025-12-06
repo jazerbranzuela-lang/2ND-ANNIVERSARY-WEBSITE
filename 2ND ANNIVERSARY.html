@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 2nd Anniversary, Daniela</title>
+    
+    <!-- Fonts: Cormorant Garamond (Elegant Serif) & Montserrat (Modern Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 2025 MODERN NUDE PALETTE VARIABLES --- */
+        :root {
+            --bg-color: #Fdfcf8;      /* Cream White */
+            --bg-secondary: #F2E8DC;  /* Soft Beige */
+            --text-main: #3E3228;     /* Dark Coffee */
+            --text-light: #8A796B;    /* Muted Taupe */
+            --accent: #C89F8D;        /* Dusty Rose/Terracotta */
+            --accent-dark: #A67B6B;
+            --glass: rgba(255, 255, 255, 0.4);
+            --border: rgba(62, 50, 40, 0.1);
+        }
+
+        /* --- RESET & BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Noise Overlay for Texture (Premium Feel) */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1MDAnIGhlaWdodD0nNTAwJz48ZmlsdGVyIGlkPSdub2lzZSc+PGZlVHVyYnVsZW5jZSB0eXBlPSdmcmFjdGFsTm9pc2UnIGJhc2VGcmVxdWVuY3k9JzAuNjUnIG51bSBPY3RhdmVzPSczJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsdGVyPSd1cmwoI25vaXNlKScgb3BhY2l0eT0nMC4wNScvPjwvc3ZnPg==');
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.6;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--text-main); }
+        .cursor-outline { 
+            width: 40px; height: 40px; 
+            border: 1px solid var(--text-main);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* --- SECTIONS --- */
+        section {
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            height: 100vh;
+        }
+        
+        .hero-date {
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.5s forwards;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.8s forwards;
+        }
+        
+        .hero-title span {
+            display: block;
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.5s forwards;
+        }
+        
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--text-main), transparent);
+            margin: 0 auto;
+        }
+
+        /* --- PHOTO GRID (BENTO STYLE) --- */
+        .gallery-section {
+            background-color: var(--bg-secondary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 5vw);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem 0;
+        }
+
+        .photo-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px; /* Minimalist rounded corners */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .photo-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.5s ease;
+            filter: sepia(20%) contrast(90%); /* Vintage warmth */
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.05);
+            filter: sepia(0%) contrast(100%);
+        }
+
+        /* Grid Placements */
+        .p1 { grid-column: 1 / 8; grid-row: 1 / 7; } /* Large Landscape */
+        .p2 { grid-column: 8 / 13; grid-row: 1 / 6; } /* Portrait */
+        .p3 { grid-column: 1 / 6; grid-row: 7 / 13; } /* Portrait */
+        .p4 { grid-column: 6 / 13; grid-row: 7 / 13; } /* Large Landscape */
+
+        @media (max-width: 768px) {
+            .gallery-grid { display: flex; flex-direction: column; }
+            .photo-card { height: 400px; width: 100%; }
+        }
+
+        /* --- TEXT/MESSAGE SECTION --- */
+        .message-section {
+            background-color: var(--bg-color);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .love-letter {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-main);
+            position: relative;
+        }
+
+        .love-letter p {
+            margin-bottom: 1.5rem;
+            opacity: 0.3; /* Text fading effect */
+            transition: opacity 0.5s ease;
+        }
+
+        .love-letter p.active {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        /* --- INTERACTIVE ENDING --- */
+        .ending {
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            text-align: center;
+        }
+
+        .btn-reveal {
+            padding: 1.5rem 3rem;
+            background: transparent;
+            border: 1px solid var(--bg-color);
+            color: var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: none; /* Use custom cursor */
+            transition: all 0.4s ease;
+            margin-top: 2rem;
+        }
+
+        .btn-reveal:hover {
+            background: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        .hidden-message {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1s ease;
+            margin-top: 2rem;
+        }
+
+        .hidden-message.show {
+            max-height: 500px;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- FLOATING HEARTS --- */
+        .heart-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Noise Texture -->
+    <div class="noise-overlay"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero">
+        <div class="hero-date">December 2025 • The 2nd Anniversary</div>
+        <h1 class="hero-title">
+            Happy Anniversary<br>
+            <span>Daniela Castillon</span>
+        </h1>
+        <p style="font-style: italic; color: var(--text-light); margin-top: 10px; opacity:0; animation: fadeUp 1s ease 1.2s forwards;">Two years of love, laughter, and us.</p>
+        
+        <div class="scroll-indicator">
+            <p style="font-size: 0.8rem; margin-bottom: 10px;">Scroll Down</p>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- 2. GALLERY SECTION (Bento Grid) -->
+    <section class="gallery-section">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2 class="serif" style="font-size: 3rem; color: var(--text-main);">Moments in Time</h2>
+        </div>
+        
+        <div class="gallery-grid">
+            <!-- Photo 1: Cuddling (Cozy) -->
+            <div class="photo-card p1">
+                <img src="us.jpg" alt="Us on the sofa" onerror="this.src='https://placehold.co/800x600/F2E8DC/3E3228?text=Add+Photo:+us.jpg'">
+            </div>
+            
+            <!-- Photo 2: Solo Glasses (Aesthetic) -->
+            <div class="photo-card p2">
+                <img src="intro.jpg" alt="Beautiful Daniela" onerror="this.src='https://placehold.co/400x600/D4A59A/3E3228?text=Add+Photo:+intro.jpg'">
+            </div>
+
+            <!-- Photo 3: Beach/Nature (Adventure) -->
+            <div class="photo-card p3">
+                <img src="adventure.jpg" alt="Our Adventures" onerror="this.src='https://placehold.co/400x500/A67B6B/Fdfcf8?text=Add+Photo:+adventure.jpg'">
+            </div>
+
+            <!-- Photo 4: Kisses (Intimate) -->
+            <div class="photo-card p4">
+                <img src="kisses.jpg" alt="Sweet Kisses" onerror="this.src='https://placehold.co/800x500/C89F8D/3E3228?text=Add+Photo:+kisses.jpg'">
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. THE LETTER (Scrollytelling) -->
+    <section class="message-section">
+        <h2 class="serif" style="font-size: 2.5rem; margin-bottom: 3rem;">My Dearest Daniela,</h2>
+        
+        <div class="love-letter">
+            <p>Hi langlang! We've reached 2 Amazing Years of Laughter and Joy, maski naay sometimes mag-away ta pero we still survive those days na galit ta sa usag usa.</p>
+            <p>Ever since na meet tika I know nga ikaw na jud ang the right one para sa akoa, through sickness and in health. Thankyou so much langlang kay you still choose to stay even tho wala pa koy ikabuga, kana pa lang na butang thankful na kaayo ko ana because only few nalang nga bae ang dili naga base sa materials or sa kaya e provide sa ilahang partner</p>
+            <p>Iloveyouuuuuu kaayo langlang ko and I hope na more and more years to come pa sa atoang relation and ma achieve nato atoang mga dugay nang gihandom na goal sa atoang life na uban tang duha.</p>
+            <p>Thank you for choosing me, for loving me, and for being exactly who you are. You are my best friend and my greatest love.</p>
+            <p class="serif" style="font-size: 1.5rem; color: var(--accent-dark); margin-top: 2rem;">I love you more than words can say.</p>
+        </div>
+    </section>
+
+    <!-- 4. INTERACTIVE ENDING -->
+    <section class="ending">
+        <h2 class="serif" style="font-size: 3rem; margin-bottom: 1rem;">To Many More</h2>
+        <p style="color: var(--accent); letter-spacing: 1px;">Ready for year three?</p>
+        
+        <button class="btn-reveal" onclick="revealSurprise()">Yes, I am</button>
+        
+        <div class="hidden-message" id="surprise">
+            <h3 class="serif" style="font-size: 2rem; margin-top: 2rem;">Forever & Always ❤️</h3>
+            <p style="margin-top: 10px;">I love you, Langga.</p> <!-- "Langga" is a common sweet endearment in PH, feel free to change -->
+        </div>
+    </section>
+
+    <div class="heart-container" id="heart-container"></div>
+
+    <script>
+        // --- CUSTOM CURSOR LOGIC ---
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effect for cursor
+        document.querySelectorAll('a, button, .photo-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.transform = "translate(-50%, -50%) scale(1.5)";
+                cursorOutline.style.backgroundColor = "rgba(62, 50, 40, 0.1)";
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.transform = "translate(-50%, -50%) scale(1)";
+                cursorOutline.style.backgroundColor = "transparent";
+            });
+        });
+
+        // --- SCROLL ANIMATIONS (Intersection Observer) ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Highlight text paragraphs one by one
+                    if(entry.target.tagName === 'P') {
+                        entry.target.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.photo-card').forEach(el => observer.observe(el));
+        
+        // Specific observer for text to highlight as you read
+        const textObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active'); // Text fades out when leaving view
+                }
+            });
+        }, { threshold: 0.8, rootMargin: "-100px 0px -100px 0px" });
+
+        document.querySelectorAll('.love-letter p').forEach(el => textObserver.observe(el));
+
+        // --- SURPRISE REVEAL & CONFETTI ---
+        function revealSurprise() {
+            const surpriseDiv = document.getElementById('surprise');
+            surpriseDiv.classList.add('show');
+            createHearts();
+        }
+
+        function createHearts() {
+            const container = document.getElementById('heart-container');
+            const colors = ['#C89F8D', '#F2E8DC', '#D4A59A', '#fff'];
+
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤';
+                heart.style.position = 'absolute';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.opacity = Math.random();
+                heart.style.bottom = '-20px';
+                
+                // Animate
+                const duration = Math.random() * 3 + 2;
+                heart.style.transition = `transform ${duration}s ease-out, opacity ${duration}s ease-out`;
+                
+                container.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.style.transform = `translateY(-${Math.random() * 80 + 20}vh) rotate(${Math.random() * 360}deg)`;
+                    heart.style.opacity = 0;
+                }, 100);
+
+                // Cleanup
+                setTimeout(() => {
+                    heart.remove();
+                }, duration * 1000);
+            }
+        }
+    </script>
+</body>
+</html>
